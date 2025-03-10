@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autobots</title>
+    <style>
+        body {
+            background-color: #D3D3D3;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background-color: #FFB6C1;
+        }
+        #gokou {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            animation: fly 30s linear infinite;
+            z-index: 1000;
+            object-fit: contain;
+        }
+        @keyframes fly {
+            0% { top: 0; left: 0; }
+            25% { top: 0; left: calc(100% - 100px); }
+            50% { top: calc(100% - 100px); left: calc(100% - 100px); }
+            75% { top: calc(100% - 100px); left: 0; }
+            100% { top: 0; left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Autobots</h1>
+
+    <div class="container">
+        <iframe src="Email Summary Generator.html" title="Email Summary Generator"></iframe>
+        <iframe src="K1.html" title="SRC Generator"></iframe>
+        <iframe src="CR1.html" title="CR1 SRC Note Generator"></iframe>
+    </div>
+
+    <script>
+        function createGokuImage() {
+            const gokou = document.createElement('img');
+            gokou.id = 'gokou';
+            gokou.src = 'gokou.png'; // Ensure this path is correct
+            gokou.alt = 'Gokou on Nimbus Cloud';
+            
+            gokou.onload = function() {
+                console.log('Gokou image loaded successfully');
+            };
+            
+            gokou.onerror = function() {
+                console.error('Failed to load Gokou image. Please check the image path and ensure the image is in the correct folder.');
+            };
+            
+            document.body.appendChild(gokou);
+        }
+
+        // Initialize the Goku image when the page loads
+        window.addEventListener('load', createGokuImage);
+    </script>
+</body>
+</html>

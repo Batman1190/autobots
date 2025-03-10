@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K1 Service Review Call Note Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #2a2a2a;
+            color: white;
+            font-size: 0.9em;
+        }
+        .container {
+            background-color: #3a3a3a;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        input[type="text"], 
+        select, 
+        textarea,
+        input[type="number"] {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background-color: #444;
+            color: white;
+            font-size: 0.9em;
+        }
+        .radio-group {
+            margin: 8px 0;
+        }
+        .radio-group label {
+            margin-right: 12px;
+            display: inline-block;
+        }
+        .conditional-input {
+            margin-top: 8px;
+            display: none;
+            padding-left: 15px;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 0.9em;
+        }
+        #generatedNote {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #444;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-size: 0.9em;
+            line-height: 1.2; /* Single line spacing */
+        }
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .button-group button {
+            flex: 1;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>K1 Service Review Call Note Generator</h1>
+        <form id="noteForm">
+            <div class="form-group">
+                <label>Call Type:</label>
+                <select id="callType" required>
+                    <option value="">Select call type</option>
+                    <option value="inbound">Inbound</option>
+                    <option value="outbound">Outbound</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Spoke with:</label>
+                <input type="text" id="spokeWith" style="width: 555px" required>
+            </div>
+
+            <div class="form-group">
+                <label>Reason for the call:</label>
+                <input type="text" value="SRC" style="width: 555px" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Verified the account:</label>
+                <div class="radio-group">
+                    <input type="radio" name="verifiedAccount" value="yes" required> Yes
+                    <input type="radio" name="verifiedAccount" value="no"> No
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Available for SRC:</label>
+                <div class="radio-group">
+                    <input type="radio" name="availableForSRC" value="yes" required> Yes
+                    <input type="radio" name="availableForSRC" value="no"> No
+                </div>
+                <div class="conditional-input" id="availableForSRCDetails">
+                    <input type="text" placeholder="Please provide details">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Will provide proof of identity and citizenship:</label>
+                <div class="radio-group">
+                    <input type="radio" name="proofIdentity" value="yes" required> Yes
+                    <input type="radio" name="proofIdentity" value="no"> No
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Already met:</label>
+                <div class="radio-group">
+                    <input type="radio" name="alreadyMet" value="yes" required> Yes
+                    <input type="radio" name="alreadyMet" value="notYet"> Not Yet
+                </div>
+                <div class="conditional-input" id="alreadyMetDetails">
+                    <input type="text" placeholder="Please provide details">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Previously been divorced or widowed:</label>
+                <div class="radio-group">
+                    <input type="radio" name="divorcedWidowed" value="yes" required> Yes
+                    <input type="radio" name="divorcedWidowed" value="no"> No
+                </div>
+                <div class="conditional-input" id="divorcedWidowedDetails">
+                    <input type="text" placeholder="Please provide details">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Have any criminal history:</label>
+                <div class="radio-group">
+                    <input type="radio" name="criminalHistory" value="yes" required> Yes
+                    <input type="radio" name="criminalHistory" value="no"> No
+                </div>
+                <div class="conditional-input" id="criminalHistoryDetails">
+                    <input type="text" placeholder="Please provide details">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Have any DUI:</label>
+                <div class="radio-group">
+                    <input type="radio" name="dui" value="yes" required> Yes
+                    <input type="radio" name="dui" value="no"> No
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Current employment status:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="employment" value="retired"> Retired</label>
+                    <label><input type="checkbox" name="employment" value="employed"> Employed</label>
+                    <label><input type="checkbox" name="employment" value="retiredPartTime"> Retired with part time job</label>
+                    <label><input type="checkbox" name="employment" value="business"> Running a business</label>
+                    <label><input type="checkbox" name="employment" value="disability"> Receiving disability benefits</label>
+                    <label><input type="checkbox" name="employment" value="employedBusiness"> Employed and running a business</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Annual income:</label>
+                <input type="text" id="annualIncome" style="width: 555px" required>
+            </div>
+
+            <div class="form-group">
+                <label>Have any dependents under the age of 18:</label>
+                <div class="radio-group">
+                    <input type="radio" name="dependents" value="yes" required> Yes
+                    <input type="radio" name="dependents" value="none"> None
+                </div>
+                <div class="conditional-input" id="dependentsDetails">
+                    <label>How many?</label>
+                    <input type="number" placeholder="Number of dependents">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>First time filing a petition for someone:</label>
+                <div class="radio-group">
+                    <input type="radio" name="firstPetition" value="yes" required> Yes
+                    <input type="radio" name="firstPetition" value="no"> No
+                </div>
+                <div class="conditional-input" id="firstPetitionDetails">
+                    <input type="text" placeholder="Please provide details">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>With K2:</label>
+                <div class="radio-group">
+                    <input type="radio" name="k2" value="yes" required> Yes
+                    <input type="radio" name="k2" value="no"> No
+                </div>
+                <div class="conditional-input" id="k2Details">
+                    <input type="text" placeholder="Please provide details">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Can answer the questionnaire on his own:</label>
+                <div class="radio-group">
+                    <input type="radio" name="questionnaire" value="yes" required> Yes
+                    <input type="radio" name="questionnaire" value="no"> No
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Timeline for visa process explained:</label>
+                <div class="radio-group">
+                    <input type="radio" name="timelineExplained" value="yes" required> Yes
+                    <input type="radio" name="timelineExplained" value="no"> No
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Informed USC that an email with a list of requirements will be sent:</label>
+                <div class="radio-group">
+                    <input type="radio" name="emailRequirements" value="yes" required> Yes
+                    <input type="radio" name="emailRequirements" value="no"> No
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Additional details:</label>
+                <textarea id="additionalDetails" style="width: 555px"></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="button" onclick="generateNote()">Generate Note</button>
+                <button type="button" onclick="copyNote()">Copy Note</button>
+                <button type="button" onclick="clearForm()">Clear Form</button>
+            </div>
+        </form>
+
+        <div id="generatedNote"></div>
+    </div>
+
+    <script>
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const name = this.name;
+                const value = this.value;
+                const conditionalInput = document.getElementById(name + 'Details');
+                if (conditionalInput) {
+                    switch(name) {
+                        case 'availableForSRC':
+                            conditionalInput.style.display = value === 'no' ? 'block' : 'none';
+                            break;
+                        case 'alreadyMet':
+                            conditionalInput.style.display = value === 'notYet' ? 'block' : 'none';
+                            break;
+                        case 'divorcedWidowed':
+                            conditionalInput.style.display = value === 'yes' ? 'block' : 'none';
+                            break;
+                        case 'criminalHistory':
+                            conditionalInput.style.display = value === 'yes' ? 'block' : 'none';
+                            break;
+                        case 'dependents':
+                            conditionalInput.style.display = value === 'yes' ? 'block' : 'none';
+                            break;
+                        case 'firstPetition':
+                            conditionalInput.style.display = value === 'no' ? 'block' : 'none';
+                            break;
+                        case 'k2':
+                            conditionalInput.style.display = value === 'yes' ? 'block' : 'none';
+                            break;
+                    }
+                }
+            });
+        });
+
+        function generateNote() {
+            const formData = new FormData(document.getElementById('noteForm'));
+            let note = `Call Type: ${document.getElementById('callType').value}\n`;
+            note += `Spoke with: ${document.getElementById('spokeWith').value}\n`;
+            note += `Reason for the call: SRC\n`;
+
+            document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                const name = radio.name;
+                const value = radio.value;
+                const detailsInput = document.querySelector(`#${name}Details input`);
+                const details = detailsInput ? detailsInput.value.trim() : '';
+
+                if (name === 'questionnaire') {
+                    note += `Can answer questionnaire on his own: ${value}\n`;
+                    note += value === 'yes' ? "Questionnaire link sent\n" : "Booked an appointment for questionnaire assistance. See schedule below.\n";
+                } else {
+                    note += `${name.replace(/([A-Z])/g, ' $1').toLowerCase()}: ${value}${details ? ` - ${details}` : ''}\n`;
+                }
+            });
+
+            const employmentOptions = Array.from(document.querySelectorAll('input[name="employment"]:checked'))
+                .map(cb => cb.parentElement.textContent.trim())
+                .join(', ');
+            if (employmentOptions) {
+                note += `Employment status: ${employmentOptions}\n`;
+            }
+
+            note += `Annual income: ${document.getElementById('annualIncome').value}\n`;
+
+            const additionalDetails = document.getElementById('additionalDetails').value.trim();
+            if (additionalDetails) {
+                note += `Additional Details:\n${additionalDetails}\n`;
+            }
+
+            document.getElementById('generatedNote').textContent = note;
+        }
+
+        function copyNote() {
+            const noteText = document.getElementById('generatedNote').textContent;
+            if (noteText) {
+                navigator.clipboard.writeText(noteText)
+                    .then(() => alert('Note copied to clipboard!'))
+                    .catch(err => alert('Failed to copy note: ' + err));
+            } else {
+                alert('Please generate a note first!');
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('noteForm').reset();
+            document.getElementById('generatedNote').textContent = '';
+            document.querySelectorAll('.conditional-input').forEach(input => {
+                input.style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Summary Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        textarea, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        button {
+            padding: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function generateNote() {
+            let recipient = document.getElementById('recipient').value.trim();
+            let responder = document.getElementById('responder').value.trim();
+            let ticket = document.getElementById('ticket').value.trim();
+            
+            if (!recipient || !responder || !ticket) {
+                alert('Please fill in all fields before generating notes.');
+                return;
+            }
+            
+            let note1 = `Hi ${recipient},\n\nThank you for reaching out to us. We have received your email and appreciate your communication. Rest assured, ${responder} will contact you within 48 hours, excluding weekends and holidays.\n\nFor any urgent matters, please feel free to reply to this email. We appreciate your patience and understanding.`;
+            
+            let note2 = `Replied to ticket: ${ticket}\n\nRecipient: ${recipient}\nPurpose: Confirm receipt of email and provide ${responder} response timeline.\n\nNext Steps:\n- ${responder} will respond within 48 hours, excluding weekends and holidays.\n- For urgent matters, a reply to this email is advised.\n- Appreciation is extended for the patience.`;
+            
+            document.getElementById('note1Output').textContent = note1;
+            document.getElementById('note2Output').textContent = note2;
+            document.querySelector('.output').style.display = 'block';
+        }
+        
+        function clearForm() {
+            document.getElementById('recipient').value = '';
+            document.getElementById('responder').value = '';
+            document.getElementById('ticket').value = '';
+            document.querySelector('.output').style.display = 'none';
+        }
+        
+        function copyToClipboard(elementId) {
+            let textElement = document.getElementById(elementId);
+            let text = textElement.textContent;
+            
+            let textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('Copied to clipboard!');
+            } catch (err) {
+                console.error('Error copying text: ', err);
+                alert('Failed to copy text. Please try manually.');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+    </script>
+</head>
+<body>
+    <h2>Email Summary Generator</h2>
+    <label for="recipient">Hi </label>
+    <input type="text" id="recipient" placeholder="Enter recipient's name">
+    
+    <p>Thank you for reaching out to us. We have received your email and appreciate your communication. Rest assured, 
+    <input type="text" id="responder" placeholder="Enter responder's name"> will contact you within 48 hours, excluding weekends and holidays.</p>
+    
+    <p>For any urgent matters, please feel free to reply to this email. We appreciate your patience and understanding.</p>
+    
+    <p>Replied to ticket <input type="text" id="ticket" placeholder="Enter ticket number"></p>
+    
+    <button onclick="generateNote()">Generate Note</button>
+    <button onclick="clearForm()">Clear Form</button>
+    
+    <div class="output">
+        <h3>Generated Note 1:</h3>
+        <pre id="note1Output"></pre>
+        <button onclick="copyToClipboard('note1Output')">Copy Note 1</button>
+        
+        <h3>Generated Note 2:</h3>
+        <pre id="note2Output"></pre>
+        <button onclick="copyToClipboard('note2Output')">Copy Note 2</button>
+    </div>
+</body>
+</html>

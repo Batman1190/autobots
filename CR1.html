@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CR1 Service Review Call Note Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: darkviolet;
+            text-align: center;
+        }
+
+        form {
+            background-color: #e6e6fa; /* Light violet background color */
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            margin-right: 10px;
+            background-color: darkviolet;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8a2be2;
+        }
+
+        #generatedNote {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            line-height: 1.2; /* Single line spacing */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CR1 Service Review Call Note Generator</h1>
+        <form id="noteForm">
+            <label for="callType">Call type:</label>
+            <select id="callType">
+                <option value="inbound">Inbound</option>
+                <option value="outbound">Outbound</option>
+            </select>
+
+            <label for="spokeWith">Spoke with:</label>
+            <input type="text" id="spokeWith">
+
+            <label>Reason for the call: SRC</label>
+
+            <label>Verified the account:</label>
+            <input type="radio" name="verifiedAccount" value="yes"> Yes
+            <input type="radio" name="verifiedAccount" value="no"> No
+
+            <label>Available for SRC:</label>
+            <input type="radio" name="availableForSRC" value="yes" onclick="toggleBox('availableForSRC', false)"> Yes
+            <input type="radio" name="availableForSRC" value="no" onclick="toggleBox('availableForSRC', true)"> No
+            <input type="text" id="availableForSRCBox" style="display:none">
+
+            <label>Will provide proof of identity and citizenship:</label>
+            <input type="radio" name="proofOfIdentity" value="yes"> Yes
+            <input type="radio" name="proofOfIdentity" value="no"> No
+
+            <label>Are the USC and the lady already married?</label>
+            <input type="radio" name="alreadyMet" value="yes" onclick="toggleBox('alreadyMetYes', true)"> Yes
+            <input type="radio" name="alreadyMet" value="notYet" onclick="toggleBox('alreadyMetNotYet', true)"> Not yet
+            <input type="text" id="alreadyMetYesBox" style="display:none">
+            <input type="text" id="alreadyMetNotYetBox" style="display:none">
+
+            <label>Previously been divorced or widowed:</label>
+            <input type="radio" name="divorcedOrWidowed" value="yes" onclick="toggleBox('divorcedOrWidowed', true)"> Yes
+            <input type="radio" name="divorcedOrWidowed" value="no" onclick="toggleBox('divorcedOrWidowed', false)"> No
+            <input type="text" id="divorcedOrWidowedBox" style="display:none">
+
+            <label>Current employment status:</label>
+            <input type="checkbox" name="employmentStatus" value="retired"> Retired
+            <input type="checkbox" name="employmentStatus" value="employed"> Employed
+            <input type="checkbox" name="employmentStatus" value="retiredWithPartTimeJob"> Retired with part-time job
+            <input type="checkbox" name="employmentStatus" value="runningBusiness"> Running a business
+            <input type="checkbox" name="employmentStatus" value="receivingDisabilityBenefits"> Receiving disability benefits
+            <input type="checkbox" name="employmentStatus" value="employedAndRunningBusiness"> Employed and running a business
+
+            <label for="annualIncome">Annual income:</label>
+            <input type="text" id="annualIncome">
+
+            <label>Have any dependents under the age of 18:</label>
+            <input type="radio" name="dependents" value="yes" onclick="toggleBox('dependents', true)"> Yes
+            <input type="radio" name="dependents" value="none" onclick="toggleBox('dependents', false)"> None
+            <input type="text" id="dependentsBox" style="display:none">
+
+            <label>First time filing a petition for someone:</label>
+            <input type="radio" name="firstTimeFiling" value="yes" onclick="toggleBox('firstTimeFiling', false)"> Yes
+            <input type="radio" name="firstTimeFiling" value="no" onclick="toggleBox('firstTimeFiling', true)"> No
+            <input type="text" id="firstTimeFilingBox" style="display:none">
+
+            <label>With CR2:</label>
+            <input type="radio" name="withCR2" value="yes" onclick="toggleBox('withCR2', true)"> Yes
+            <input type="radio" name="withCR2" value="no" onclick="toggleBox('withCR2', false)"> No
+            <input type="text" id="withCR2Box" style="display:none">
+
+            <label>Can answer the questionnaire on his own:</label>
+            <input type="radio" name="answerQuestionnaire" value="yes" onclick="toggleBox('answerQuestionnaire', false)"> Yes
+            <input type="radio" name="answerQuestionnaire" value="no" onclick="toggleBox('answerQuestionnaire', true)"> No
+            <input type="text" id="answerQuestionnaireBox" style="display:none">
+
+            <label>Timeline for visa process explained:</label>
+            <input type="radio" name="visaProcessExplained" value="yes"> Yes
+            <input type="radio" name="visaProcessExplained" value="no"> No
+
+            <label>Informed USC that an email with a list of requirements will be sent:</label>
+            <input type="radio" name="emailRequirements" value="yes"> Yes
+            <input type="radio" name="emailRequirements" value="no"> No
+
+            <label for="additionalDetails">Additional details:</label>
+            <textarea id="additionalDetails"></textarea>
+
+            <button type="button" onclick="generateNote()">Generate Note</button>
+            <button type="button" onclick="copyNote()">Copy Note</button>
+            <button type="button" onclick="clearForm()">Clear Form</button>
+        </form>
+        <div id="generatedNote" style="margin-top: 20px;"></div>
+    </div>
+    <script>
+        function toggleBox(name, show) {
+            const yesBox = document.getElementById('alreadyMetYesBox');
+            const notYetBox = document.getElementById('alreadyMetNotYetBox');
+            if (name === 'alreadyMetYes') {
+                yesBox.style.display = show ? 'block' : 'none';
+                notYetBox.style.display = 'none';
+                notYetBox.value = '';
+            } else if (name === 'alreadyMetNotYet') {
+                notYetBox.style.display = show ? 'block' : 'none';
+                yesBox.style.display = 'none';
+                yesBox.value = '';
+            } else {
+                const box = document.getElementById(name + 'Box');
+                if (show) {
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                    box.value = '';
+                }
+            }
+        }
+
+        function generateNote() {
+            const form = document.getElementById('noteForm');
+            const note = document.getElementById('generatedNote');
+            let noteContent = '';
+
+            const callType = form.callType.value;
+            const spokeWith = form.spokeWith.value;
+            const verifiedAccount = form.verifiedAccount.value;
+            const availableForSRC = form.availableForSRC.value;
+            const availableForSRCBox = form.availableForSRCBox.value;
+            const proofOfIdentity = form.proofOfIdentity.value;
+            const alreadyMet = form.alreadyMet.value;
+            const alreadyMetYesBox = form.alreadyMetYesBox.value;
+            const alreadyMetNotYetBox = form.alreadyMetNotYetBox.value;
+            const divorcedOrWidowed = form.divorcedOrWidowed.value;
+            const divorcedOrWidowedBox = form.divorcedOrWidowedBox.value;
+            const employmentStatus = Array.from(form.employmentStatus).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value).join(', ');
+            const annualIncome = form.annualIncome.value;
+            const dependents = form.dependents.value;
+            const dependentsBox = form.dependentsBox.value;
+            const firstTimeFiling = form.firstTimeFiling.value;
+            const firstTimeFilingBox = form.firstTimeFilingBox.value;
+            const withCR2 = form.withCR2.value;
+            const withCR2Box = form.withCR2Box.value;
+            const answerQuestionnaire = form.answerQuestionnaire.value;
+            const answerQuestionnaireBox = form.answerQuestionnaireBox.value;
+            const visaProcessExplained = form.visaProcessExplained.value;
+            const emailRequirements = form.emailRequirements.value;
+            const additionalDetails = form.additionalDetails.value;
+
+            noteContent += `Call type: ${callType}\n`;
+            noteContent += `Spoke with: ${spokeWith}\n`;
+            noteContent += `Reason for the call: SRC\n`;
+            noteContent += `Verified the account: ${verifiedAccount}\n`;
+            noteContent += `Available for SRC: ${availableForSRC} ${availableForSRCBox}\n`;
+            noteContent += `Will provide proof of identity and citizenship: ${proofOfIdentity}\n`;
+            noteContent += `Are the USC and the lady already married?: ${alreadyMet} ${alreadyMet === 'yes' ? alreadyMetYesBox : alreadyMetNotYetBox}\n`;
+            noteContent += `Previously been divorced or widowed: ${divorcedOrWidowed} ${divorcedOrWidowedBox}\n`;
+            noteContent += `Current employment status: ${employmentStatus}\n`;
+            noteContent += `Annual income: ${annualIncome}\n`;
+            noteContent += `Have any dependents under the age of 18: ${dependents} ${dependentsBox}\n`;
+            noteContent += `First time filing a petition for someone: ${firstTimeFiling} ${firstTimeFilingBox}\n`;
+            noteContent += `With CR2: ${withCR2} ${withCR2Box}\n`;
+            noteContent += `Can answer the questionnaire on his own: ${answerQuestionnaire} ${answerQuestionnaireBox}\n`;
+            noteContent += `Timeline for visa process explained: ${visaProcessExplained}\n`;
+            noteContent += `Informed USC that an email with a list of requirements will be sent: ${emailRequirements}\n`;
+            noteContent += `Additional details: ${additionalDetails}\n`;
+
+            note.textContent = noteContent;
+        }
+
+        function copyNote() {
+            const note = document.getElementById('generatedNote');
+            const range = document.createRange();
+            range.selectNode(note);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            alert('Note copied to clipboard');
+        }
+
+        function clearForm() {
+            document.getElementById('noteForm').reset();
+            document.getElementById('generatedNote').textContent = '';
+        }
+    </script>
+</body>
+</html>
