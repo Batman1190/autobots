@@ -17,6 +17,10 @@
             color: #007bff;
             margin-bottom: 20px;
         }
+        .buy-me-coffee {
+            text-align: center;
+            margin-bottom: 20px;
+        }
         .container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -51,6 +55,11 @@
 </head>
 <body>
     <h1>Autobots</h1>
+    <div class="buy-me-coffee">
+        <a href="https://www.buymeacoffee.com/musikalangw" target="_blank">
+            <img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me a Coffee" style="height: 51px !important;width: 217px !important;">
+        </a>
+    </div>
 
     <div class="container">
         <iframe src="Email Summary Generator.html" title="Email Summary Generator"></iframe>
@@ -62,7 +71,7 @@
         function createGokuImage() {
             const gokou = document.createElement('img');
             gokou.id = 'gokou';
-            gokou.src = 'Gokou.PNG'; // Ensure this path is correct
+            gokou.src = 'gokou.png'; // Ensure this path is correct
             gokou.alt = 'Gokou on Nimbus Cloud';
             
             gokou.onload = function() {
